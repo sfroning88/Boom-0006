@@ -74,7 +74,7 @@
                     </div>
                   </div>
                   <div id="action-buttons" style="width: 100%; max-width: 800px; display: flex; align-items: center; gap: 1em; background: #23272f; border-radius: 16px; padding: 1em; justify-content: flex-end; margin-left: auto;">
-                    <button id="outbound-call" class="btn btn-primary" style="margin: 0; background: #007bff; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Generate Outbound Call</button>
+                    <button id="generate-outbound-call" class="btn btn-primary" style="margin: 0; background: #007bff; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Generate Outbound Call</button>
                     <div class="img_cont_msg" style="margin-left: 12px;">
                       <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
                     </div>
@@ -97,7 +97,7 @@
       $(document).ready(function () {
         // Scroll to bottom on page load
         scrollToBottom();
-        $('#outbound-call').on('click', function() {
+        $('#generate-outbound-call').on('click', function() {
           // Show user message bubble
           $('#chat-messages').append(
             '<div class="d-flex mb-3 justify-content-end">' +
