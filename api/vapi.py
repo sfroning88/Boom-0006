@@ -1,4 +1,4 @@
-def call_vapi(agent_id):
+def outbound_call(agent_id):
   import requests
     import os
 
