@@ -74,8 +74,7 @@
                     </div>
                   </div>
                   <div id="action-buttons" style="width: 100%; max-width: 800px; display: flex; align-items: center; gap: 1em; background: #23272f; border-radius: 16px; padding: 1em; justify-content: flex-end; margin-left: auto;">
-                    <button id="generate-call" class="btn btn-primary" style="margin: 0; background: #007bff; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Generate Outbound Call</button>
-                    <button id="book-appointment" class="btn btn-danger" style="margin: 0; background: #dc3545; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Book Appointment to Calendar</button>
+                    <button id="outbound-call" class="btn btn-primary" style="margin: 0; background: #007bff; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Generate Outbound Call</button>
                     <div class="img_cont_msg" style="margin-left: 12px;">
                       <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
                     </div>
@@ -98,7 +97,7 @@
       $(document).ready(function () {
         // Scroll to bottom on page load
         scrollToBottom();
-        $('#generate-call').on('click', function() {
+        $('#outbound-call').on('click', function() {
           // Show user message bubble
           $('#chat-messages').append(
             '<div class="d-flex mb-3 justify-content-end">' +
@@ -128,7 +127,7 @@
 
           // Simulate API call to Vapi.ai
           $.ajax({
-            url: '/generate_call',
+            url: '/generate_outbound_call',
             type: 'POST',
             success: function (data) {
               if (data.success) {
@@ -139,51 +138,6 @@
             },
             error: function () {
               $('#call-status').html('<span style="color: red;">There was an error processing your request.</span>');
-            }
-          });
-        });
-
-        $('#book-appointment').on('click', function() {
-          // Show user message bubble
-          $('#chat-messages').append(
-            '<div class="d-flex mb-3 justify-content-end">' +
-              '<div class="p-3 rounded" style="background: #dc3545; color: #fff; border-radius: 16px 16px 4px 16px; max-width: 80%;">' +
-                '<span style="font-weight: bold;">You</span><br>' +
-                'Book Appointment to Calendar' +
-              '</div>' +
-              '<div class="img_cont_msg" style="margin-left: 12px;">' +
-                '<img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
-              '</div>' +
-            '</div>'
-          );
-
-          // Show bot response
-          var botBubble = $('<div class="d-flex mb-3">' +
-            '<div class="img_cont_msg" style="margin-right: 12px;">' +
-              '<img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
-            '</div>' +
-            '<div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">' +
-              '<b>BOOM Assistant</b><br><span id="appointment-status">Opening calendar booking...</span>' +
-            '</div>' +
-          '</div>');
-          $('#chat-messages').append(botBubble);
-
-          // Scroll to bottom
-          scrollToBottom();
-
-          // Simulate API call to Calendly
-          $.ajax({
-            url: '/book_appointment',
-            type: 'POST',
-            success: function (data) {
-              if (data.success) {
-                $('#appointment-status').html('<span style="color: limegreen;">Calendar opened successfully! Please select your preferred time.</span>');
-              } else {
-                $('#appointment-status').html('<span style="color: red;">Failed to open calendar. Please try again.</span>');
-              }
-            },
-            error: function () {
-              $('#appointment-status').html('<span style="color: red;">There was an error processing your request.</span>');
             }
           });
         });
