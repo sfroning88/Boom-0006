@@ -53,8 +53,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="card-body msg_card_body d-flex flex-column align-items-center justify-content-end" style="height: 100%; overflow-y: auto; padding-bottom: 0;">
-                  <div id="chat-messages" style="width: 95%; max-width: 95%; margin-bottom: 2em; min-height: 100%; display: flex; flex-direction: column; justify-content: flex-end;">
+                <div class="card-body msg_card_body d-flex flex-column align-items-center justify-content-end" style="height: 100%; padding-bottom: 0;">
+                  <div id="chat-messages" style="width: 95%; max-width: 95%; height: 60vh; margin-bottom: 2em; overflow-y: auto; background: transparent;">
                     <!-- Initial bot message -->
                     <div class="d-flex mb-3">
                       <div class="img_cont_msg" style="margin-right: 12px;">
@@ -148,6 +148,21 @@
       #action-buttons {
         justify-content: flex-end !important;
         margin-left: auto !important;
+      }
+      /* Make chat-messages scrollable with a visible scrollbar */
+      #chat-messages {
+        scrollbar-width: thin;
+        scrollbar-color: #888 #23272f;
+      }
+      #chat-messages::-webkit-scrollbar {
+        width: 8px;
+      }
+      #chat-messages::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      #chat-messages::-webkit-scrollbar-track {
+        background: #23272f;
       }
     </style>
   </body>
