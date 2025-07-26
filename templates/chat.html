@@ -1,0 +1,162 @@
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scraping Machine</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css')}}"
+    />
+  </head>
+
+  <body>
+    <!-- Main chat container -->
+    <div id="chat-container" style="width: 95vw; height: 90vh; margin: 2vh auto; border-radius: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 0; font-size: 1.25rem; display: flex; align-items: center; justify-content: center;">
+        <div class="container-fluid h-100" style="height: 100%; width: 100%;">
+          <div class="row justify-content-center h-100" style="height: 100%;">
+            <div class="col-12 chat" style="height: 100%;">
+              <div class="card" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
+                <div class="card-header msg_head">
+                  <div class="d-flex bd-highlight">
+                    <div class="img_cont">
+                      <img
+                        src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE"
+                        class="rounded-circle user_img"
+                        style="width: 60px; height: 60px; object-fit: cover;"
+                      />
+                      <span class="online_icon"></span>
+                    </div>
+                    <div class="user_info">
+                      <span>Scraping Machine</span>
+                      <p>Upload any financial statement for analysis.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body msg_card_body d-flex flex-column align-items-center justify-content-end" style="height: 100%; overflow-y: auto; padding-bottom: 0;">
+                  <div id="chat-messages" style="width: 95%; max-width: 95%; margin-bottom: 2em;">
+                    <!-- Initial bot message -->
+                    <div class="d-flex mb-3">
+                      <div class="img_cont_msg" style="margin-right: 12px;">
+                        <img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
+                      </div>
+                      <div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">
+                        <b>Scraping Machine</b><br>
+                        Please upload your financial statements to begin.
+                      </div>
+                    </div>
+                  </div>
+                  <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/chat_upload" style="width: 100%; max-width: 800px; display: flex; align-items: center; gap: 1em; background: #23272f; border-radius: 16px; padding: 1em; justify-content: flex-end; margin-left: auto;">
+                    <div class="form-group mb-0" style="flex: 1;">
+                      <input type="file" id="file" name="file" accept=".csv,.xls,.xlsx" class="form-control-file" required style="color: #fff;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin: 0;">Upload</button>
+                    <div class="img_cont_msg" style="margin-left: 12px;">
+                      <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+      // Make file input label and text white
+      $(document).ready(function () {
+        // Style file input text color
+        $('#file').on('change', function() {
+          // For custom file input, show file name in white
+          if (this.files && this.files[0]) {
+            $(this).css('color', '#fff');
+          }
+        });
+
+        $('#uploadForm').on('submit', function (event) {
+          event.preventDefault();
+          var formData = new FormData(this);
+          var fileInput = $('#file')[0];
+          var fileName = fileInput.files.length ? fileInput.files[0].name : '';
+          if (!fileName) return;
+
+          // Show user message bubble with file name and user avatar
+          $('#chat-messages').append(
+            '<div class="d-flex mb-3 justify-content-end">' +
+              '<div class="p-3 rounded" style="background: #007bff; color: #fff; border-radius: 16px 16px 4px 16px; max-width: 80%; display: flex; flex-direction: column; align-items: flex-end;">' +
+                '<span style="font-weight: bold; margin-bottom: 2px;">You</span>' +
+                '<span style="display: flex; align-items: center;">' +
+                  '<i class="fas fa-paperclip" style="margin-right: 6px;"></i>Attached: ' + fileName +
+                '</span>' +
+              '</div>' +
+              '<div class="img_cont_msg" style="margin-left: 12px;">' +
+                '<img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
+              '</div>' +
+            '</div>'
+          );
+
+          // Show bot "Uploading..." bubble with avatar
+          var botBubble = $('<div class="d-flex mb-3">' +
+            '<div class="img_cont_msg" style="margin-right: 12px;">' +
+              '<img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
+            '</div>' +
+            '<div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">' +
+              '<b>Scraping Machine</b><br><span id="uploading-status">Uploading...</span>' +
+            '</div>' +
+          '</div>');
+          $('#chat-messages').append(botBubble);
+          var uploadingStatus = botBubble.find('#uploading-status');
+
+          // Scroll to bottom
+          $('#chat-messages').parent().scrollTop($('#chat-messages').height());
+
+          $.ajax({
+            url: '/chat_upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+              if (data.success) {
+                uploadingStatus.html('<span style="color: limegreen;">File uploaded successfully! ' + fileName + '</span>');
+                $('#file').val('');
+              } else {
+                uploadingStatus.html('<span style="color: red;">Upload failed.</span>');
+              }
+            },
+            error: function () {
+              uploadingStatus.html('<span style="color: red;">There was an error processing your request.</span>');
+            }
+          });
+        });
+      });
+    </script>
+    <style>
+      /* Right-align the upload form to match user chat messages */
+      #uploadForm {
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+      }
+    </style>
+  </body>
+</html>
