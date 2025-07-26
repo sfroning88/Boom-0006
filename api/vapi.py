@@ -5,23 +5,22 @@ def call_vapi(agent_id):
     # Set your Vapi API token (should be set as an environment variable for security)
     token = os.environ.get('VAPI_API_KEY')
 
-    # Hardcoded phone number for MVP
-    phone_number = "+17737240301"
+    # Hardcoded customer phone number
+    customer_number = "+17737240301"
+
+    # Hardcoded transient phone number
+    business_number = "d4437aa7-12b0-49ce-b612-6165578a35e1"
+    # free vapi random number: +1 (206) 231 6331
 
     # Hardcoded Calendly booking link
     booking_link = "https://calendly.com/seanf-boom/new-meeting"
 
     # Prepare the payload for the outbound call
     payload = {
-        "assistantId": agent_id,  # Use the assistantId, not the full URL
+        "assistantId": agent_id,
+        "phoneNumberId": business_number,
         "customer": {
-            "number": phone_number
-        },
-        # Optionally, you could pass context or variables here
-        "assistantOverrides": {
-            "templateVariables": {
-                "booking_link": booking_link
-            }
+            "number": customer_number,
         }
     }
 
