@@ -1,4 +1,4 @@
-agent_id = https://vapi.ai?demo=true&shareKey=a0550dae-732b-4e64-89e9-bd1fbaf1d15b&assistantId=373d7e61-e201-4d83-90c9-b3709d6e28f4
+agent_id = 'https://vapi.ai?demo=true&shareKey=a0550dae-732b-4e64-89e9-bd1fbaf1d15b&assistantId=373d7e61-e201-4d83-90c9-b3709d6e28f4'
 
 agent_description = '''
 # Sales Leads Agent Prompt
