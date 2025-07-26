@@ -15,9 +15,9 @@ def generate_call():
     try:
         # TODO: Integrate with Vapi.ai for outbound calls
         # For now, return success response
-        return jsonify({'success': True, 'message': 'Call initiated successfully'})
+        return jsonify({'success': True, 'message': 'Call initiated successfully'}), 200
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)})
+        return jsonify({'success': False, 'message': str(e)}), 400
 
 # function to book appointment
 @app.route('/book_appointment', methods=['POST'])
@@ -25,9 +25,9 @@ def book_appointment():
     try:
         # TODO: Integrate with Calendly API for calendar booking
         # For now, return success response
-        return jsonify({'success': True, 'message': 'Calendar opened successfully'})
+        return jsonify({'success': True, 'message': 'Calendar opened successfully'}), 200
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)})
+        return jsonify({'success': False, 'message': str(e)}), 400
     
 if __name__ == '__main__':
     if len(sys.argv) != 1:
