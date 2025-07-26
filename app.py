@@ -9,13 +9,25 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 def home():
     return render_template('chat.html')
 
-# function to book appointment
-@app.route('/chat_upload', methods=['POST'])
+# function to generate outbound call
+@app.route('/generate_call', methods=['POST'])
 def generate_call():
-    pass
+    try:
+        # TODO: Integrate with Vapi.ai for outbound calls
+        # For now, return success response
+        return jsonify({'success': True, 'message': 'Call initiated successfully'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
 
+# function to book appointment
+@app.route('/book_appointment', methods=['POST'])
 def book_appointment():
-    pass
+    try:
+        # TODO: Integrate with Calendly API for calendar booking
+        # For now, return success response
+        return jsonify({'success': True, 'message': 'Calendar opened successfully'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
     
 if __name__ == '__main__':
     if len(sys.argv) != 1:
