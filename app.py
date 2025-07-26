@@ -13,8 +13,9 @@ def home():
 @app.route('/generate_outbound_call', methods=['POST'])
 def generate_call():
     try:
-        # TODO: Integrate with Vapi.ai for outbound calls
-        # For now, return success response
+        from agents.brennan import agent_id
+        from api.vapi import call_vapi
+        call_vapi(agent_id)
         return jsonify({'success': True, 'message': 'Call initiated successfully'}), 200
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
