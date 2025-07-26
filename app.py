@@ -10,22 +10,12 @@ def home():
     return render_template('chat.html')
 
 # function to generate outbound call
-@app.route('/generate_call', methods=['POST'])
+@app.route('/generate_outbound_call', methods=['POST'])
 def generate_call():
     try:
         # TODO: Integrate with Vapi.ai for outbound calls
         # For now, return success response
         return jsonify({'success': True, 'message': 'Call initiated successfully'}), 200
-    except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 400
-
-# function to book appointment
-@app.route('/book_appointment', methods=['POST'])
-def book_appointment():
-    try:
-        # TODO: Integrate with Calendly API for calendar booking
-        # For now, return success response
-        return jsonify({'success': True, 'message': 'Calendar opened successfully'}), 200
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
     
