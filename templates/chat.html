@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Scraping Machine</title>
+    <title>BOOM Assistant</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -48,33 +48,38 @@
                       <span class="online_icon"></span>
                     </div>
                     <div class="user_info">
-                      <span>Scraping Machine</span>
-                      <p>Upload any financial statement for analysis.</p>
+                      <span>BOOM Assistant</span>
+                      <p>AI-powered appointment setting agent for SMBs</p>
                     </div>
                   </div>
                 </div>
                 <div class="card-body msg_card_body d-flex flex-column align-items-center justify-content-end" style="height: 100%; overflow-y: auto; padding-bottom: 0;">
-                  <div id="chat-messages" style="width: 95%; max-width: 95%; margin-bottom: 2em;">
+                  <div id="chat-messages" style="width: 95%; max-width: 95%; margin-bottom: 2em; min-height: 100%; display: flex; flex-direction: column; justify-content: flex-end;">
                     <!-- Initial bot message -->
                     <div class="d-flex mb-3">
                       <div class="img_cont_msg" style="margin-right: 12px;">
                         <img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
                       </div>
                       <div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">
-                        <b>Scraping Machine</b><br>
-                        Please upload your financial statements to begin.
+                        <b>BOOM Assistant</b><br>
+                        Welcome to BOOM Assistant! I am here to make your life just a little bit easier, by taking care of the following tasks:<br><br>
+                        • Help schedule outbound calls<br>
+                        • Sort through qualified sales leads<br>
+                        • Natively link meetings to your calendar<br>
+                        • Handle conversations with your clients<br>
+                        • Reduce your sales team headcount<br>
+                        • Anything else you need from a secretary<br><br>
+                        What would you like to do today?
                       </div>
                     </div>
                   </div>
-                  <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/chat_upload" style="width: 100%; max-width: 800px; display: flex; align-items: center; gap: 1em; background: #23272f; border-radius: 16px; padding: 1em; justify-content: flex-end; margin-left: auto;">
-                    <div class="form-group mb-0" style="flex: 1;">
-                      <input type="file" id="file" name="file" accept=".csv,.xls,.xlsx" class="form-control-file" required style="color: #fff;">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="margin: 0;">Upload</button>
+                  <div id="action-buttons" style="width: 100%; max-width: 800px; display: flex; align-items: center; gap: 1em; background: #23272f; border-radius: 16px; padding: 1em; justify-content: flex-end; margin-left: auto;">
+                    <button id="generate-call" class="btn btn-primary" style="margin: 0; background: #007bff; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Generate Outbound Call</button>
+                    <button id="book-appointment" class="btn btn-danger" style="margin: 0; background: #dc3545; border: none; padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold;">Book Appointment to Calendar</button>
                     <div class="img_cont_msg" style="margin-left: 12px;">
                       <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -83,31 +88,23 @@
     </div>
 
     <script>
-      // Make file input label and text white
+      function scrollToBottom() {
+        setTimeout(function() {
+          var chatContainer = $('#chat-messages').parent();
+          chatContainer.scrollTop(chatContainer[0].scrollHeight);
+        }, 100);
+      }
+
       $(document).ready(function () {
-        // Style file input text color
-        $('#file').on('change', function() {
-          // For custom file input, show file name in white
-          if (this.files && this.files[0]) {
-            $(this).css('color', '#fff');
-          }
-        });
-
-        $('#uploadForm').on('submit', function (event) {
-          event.preventDefault();
-          var formData = new FormData(this);
-          var fileInput = $('#file')[0];
-          var fileName = fileInput.files.length ? fileInput.files[0].name : '';
-          if (!fileName) return;
-
-          // Show user message bubble with file name and user avatar
+        // Scroll to bottom on page load
+        scrollToBottom();
+        $('#generate-call').on('click', function() {
+          // Show user message bubble
           $('#chat-messages').append(
             '<div class="d-flex mb-3 justify-content-end">' +
-              '<div class="p-3 rounded" style="background: #007bff; color: #fff; border-radius: 16px 16px 4px 16px; max-width: 80%; display: flex; flex-direction: column; align-items: flex-end;">' +
-                '<span style="font-weight: bold; margin-bottom: 2px;">You</span>' +
-                '<span style="display: flex; align-items: center;">' +
-                  '<i class="fas fa-paperclip" style="margin-right: 6px;"></i>Attached: ' + fileName +
-                '</span>' +
+              '<div class="p-3 rounded" style="background: #007bff; color: #fff; border-radius: 16px 16px 4px 16px; max-width: 80%;">' +
+                '<span style="font-weight: bold;">You</span><br>' +
+                'Generate Outbound Call' +
               '</div>' +
               '<div class="img_cont_msg" style="margin-left: 12px;">' +
                 '<img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
@@ -115,45 +112,86 @@
             '</div>'
           );
 
-          // Show bot "Uploading..." bubble with avatar
+          // Show bot response
           var botBubble = $('<div class="d-flex mb-3">' +
             '<div class="img_cont_msg" style="margin-right: 12px;">' +
               '<img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
             '</div>' +
             '<div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">' +
-              '<b>Scraping Machine</b><br><span id="uploading-status">Uploading...</span>' +
+              '<b>BOOM Assistant</b><br><span id="call-status">Initiating outbound call...</span>' +
             '</div>' +
           '</div>');
           $('#chat-messages').append(botBubble);
-          var uploadingStatus = botBubble.find('#uploading-status');
 
           // Scroll to bottom
-          $('#chat-messages').parent().scrollTop($('#chat-messages').height());
+          scrollToBottom();
 
+          // Simulate API call to Vapi.ai
           $.ajax({
-            url: '/chat_upload',
+            url: '/generate_call',
             type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
             success: function (data) {
               if (data.success) {
-                uploadingStatus.html('<span style="color: limegreen;">File uploaded successfully! ' + fileName + '</span>');
-                $('#file').val('');
+                $('#call-status').html('<span style="color: limegreen;">Call initiated successfully! Connecting to lead...</span>');
               } else {
-                uploadingStatus.html('<span style="color: red;">Upload failed.</span>');
+                $('#call-status').html('<span style="color: red;">Failed to initiate call. Please try again.</span>');
               }
             },
             error: function () {
-              uploadingStatus.html('<span style="color: red;">There was an error processing your request.</span>');
+              $('#call-status').html('<span style="color: red;">There was an error processing your request.</span>');
+            }
+          });
+        });
+
+        $('#book-appointment').on('click', function() {
+          // Show user message bubble
+          $('#chat-messages').append(
+            '<div class="d-flex mb-3 justify-content-end">' +
+              '<div class="p-3 rounded" style="background: #dc3545; color: #fff; border-radius: 16px 16px 4px 16px; max-width: 80%;">' +
+                '<span style="font-weight: bold;">You</span><br>' +
+                'Book Appointment to Calendar' +
+              '</div>' +
+              '<div class="img_cont_msg" style="margin-left: 12px;">' +
+                '<img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
+              '</div>' +
+            '</div>'
+          );
+
+          // Show bot response
+          var botBubble = $('<div class="d-flex mb-3">' +
+            '<div class="img_cont_msg" style="margin-right: 12px;">' +
+              '<img src="https://media.licdn.com/dms/image/v2/D560BAQHK10HmqRh1rQ/company-logo_200_200/company-logo_200_200/0/1701815665068/wealthboom_logo?e=1755129600&v=beta&t=0RhPS_izHlCe2NRvKtO7mgT7LXo6T87muFlK-HR_noE" class="rounded-circle user_img_msg" style="width: 40px; height: 40px; object-fit: cover;">' +
+            '</div>' +
+            '<div class="p-3 rounded" style="background: #23272f; color: #fff; border-radius: 16px 16px 16px 4px; max-width: 80%;">' +
+              '<b>BOOM Assistant</b><br><span id="appointment-status">Opening calendar booking...</span>' +
+            '</div>' +
+          '</div>');
+          $('#chat-messages').append(botBubble);
+
+          // Scroll to bottom
+          scrollToBottom();
+
+          // Simulate API call to Calendly
+          $.ajax({
+            url: '/book_appointment',
+            type: 'POST',
+            success: function (data) {
+              if (data.success) {
+                $('#appointment-status').html('<span style="color: limegreen;">Calendar opened successfully! Please select your preferred time.</span>');
+              } else {
+                $('#appointment-status').html('<span style="color: red;">Failed to open calendar. Please try again.</span>');
+              }
+            },
+            error: function () {
+              $('#appointment-status').html('<span style="color: red;">There was an error processing your request.</span>');
             }
           });
         });
       });
     </script>
     <style>
-      /* Right-align the upload form to match user chat messages */
-      #uploadForm {
+      /* Right-align the action buttons to match user chat messages */
+      #action-buttons {
         justify-content: flex-end !important;
         margin-left: auto !important;
       }
