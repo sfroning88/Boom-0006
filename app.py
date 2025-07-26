@@ -11,6 +11,9 @@ def home():
 
 # function to book appointment
 @app.route('/chat_upload', methods=['POST'])
+def generate_call():
+    pass
+
 def book_appointment():
     pass
     
