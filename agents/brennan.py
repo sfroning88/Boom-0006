@@ -1,4 +1,3 @@
-agent_id = "373d7e61-e201-4d83-90c9-b3709d6e28f4"
 agent_name = "Brennan"
 
 agent_first_message = f'''
@@ -103,79 +102,77 @@ Remember that your ultimate goal is to generate sales meetings with prospective 
 '''
 
 agent = {
-   "assistant": {
-      "name": f"{agent_name} v1.1",
-      "transcriber": {
-         "provider": "openai",
-         "model": "gpt-4o-mini-transcribe",
-         "language": "en"
-      },
-      "model": {
-         "provider": "openai",
-         "model": "gpt-4o-mini",
-         "messages": [
-         {
-          "role": "system",
-          "content": agent_description
-         }
-         ],
+   "name": f"{agent_name} v1.1",
+   "transcriber": {
+      "provider": "openai",
+      "model": "gpt-4o-mini-transcribe",
+      "language": "en"
+   },
+   "model": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "messages": [
+      {
+         "role": "system",
+         "content": agent_description
+      }
+      ],
       "temperature": 0.2,
       "maxTokens": 1000
-      },
-      "voice": {
-         "provider": "openai",
-         "voiceId": "onyx",
-         "model": "gpt-4o-mini-tts",
-         "instructions": "Speak in a confident, warm, and professional tone."
-      },
-      "firstMessage": agent_first_message,
-      "firstMessageInterruptionsEnabled": False,
-      "firstMessageMode": "assistant-speaks-first",
-      "modelOutputInMessagesEnabled": False,
-      "endCallMessage": agent_last_message,
-      "endCallPhrases": agent_last_phrases,
-      "voicemailMesasge": agent_voicemail_message,
-      "voicemailDetection": {
-         "provider": "twilio",
+   },
+   "voice": {
+      "provider": "openai",
+      "voiceId": "onyx",
+      "model": "gpt-4o-mini-tts",
+      "instructions": "Speak in a confident, warm, and professional tone."
+   },
+   "firstMessage": agent_first_message,
+   "firstMessageInterruptionsEnabled": False,
+   "firstMessageMode": "assistant-speaks-first",
+   "modelOutputInMessagesEnabled": False,
+   "endCallMessage": agent_last_message,
+   "endCallPhrases": agent_last_phrases,
+   "voicemailMessage": agent_voicemail_message,
+   "voicemailDetection": {
+      "provider": "twilio",
+      "enabled": True,
+      "machineDetectionTimeout": 30,
+      "machineDetectionSpeechThreshold": 2400,
+      "machineDetectionSpeechEndThreshold": 1200,
+      "machineDetectionSilenceTimeout": 5000
+   },
+   "maxDurationSeconds": 300,
+   "backgroundSound": "office",
+   "analysisPlan": {
+      "minMessagesThreshold": 1,
+      "structuredDataPlan": {
          "enabled": True,
-         "machineDetectionTimeout": 30,
-         "machineDetectionSpeechThreshold": 2400,
-         "machineDetectionSpeechEndThreshold": 1200,
-         "machineDetectionSilenceTimeout": 5000
-      },
-      "maxDurationSeconds": 300,
-      "backgroundSound": "office",
-      "analysisPlan": {
-         "minMessagesThreshold": 1,
-         "structuredDataPlan": {
-            "enabled": True,
-            "schema": {
-               "type": "object",
-               "properties": {
-                  "follow_up": { 
-                     "type": "boolean" 
-                  },
-                  "preferred_contact": {
-                     "type": "string",
-                     "enum": ["phone", "email", "NA"]
-                  },
-                  "phone_contact": { 
-                     "type": "string" 
-                  },
-                  "email_contact": {
-                     "type": "string"
-                  }
+         "schema": {
+            "type": "object",
+            "properties": {
+               "follow_up": { 
+                  "type": "boolean" 
                },
-               "required": ["follow_up", "preferred_contact", "phone_contact", "email_contact"]
-            }
+               "preferred_contact": {
+                  "type": "string",
+                  "enum": ["phone", "email", "NA"]
+               },
+               "phone_contact": { 
+                  "type": "string" 
+               },
+               "email_contact": {
+                  "type": "string"
+               }
+            },
+            "required": ["follow_up", "preferred_contact", "phone_contact", "email_contact"]
          }
-      },
-      "messagePlan": {
-         "idleMessages": agent_idle_phrases,
-         "idleMessageMaxSpokenCount": 3,
-         "idleMessageResetCountOnUserSpeechEnabled": False,
-         "idleTimeoutSeconds": 10,
-         "silenceTimeoutMessage": agent_silence_message
       }
-  }
+   },
+   "messagePlan": {
+      "idleMessages": agent_idle_phrases,
+      "idleMessageMaxSpokenCount": 3,
+      "idleMessageResetCountOnUserSpeechEnabled": False,
+      "idleTimeoutSeconds": 10,
+      "silenceTimeoutMessage": agent_silence_message
+   }
 }
