@@ -1,8 +1,9 @@
 def clean_phone(dirty_phone):
-    
-    
-    clean_result = dirty_phone
-    return clean_result
+    # ASSUME dirty_phone is in format: "773-724-0301"
+    # RESULT clean_result is in format "+17737240301"
+
+    clean_result = dirty_phone.replace("-", "")
+    return "+1" + clean_result
 
 def clean_email(dirty_email):
 
