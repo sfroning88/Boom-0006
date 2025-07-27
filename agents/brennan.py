@@ -146,7 +146,7 @@ agent = {
       "maxDurationSeconds": 300,
       "backgroundSound": "office",
       "analysisPlan": {
-         "summaryPrompt": "Determine whether or not the customer would like a follow up message.",
+         "minMessagesThreshold": 1,
          "structuredDataPlan": {
             "enabled": True,
             "schema": {
