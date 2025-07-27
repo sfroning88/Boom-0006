@@ -39,21 +39,29 @@ def generate_call():
 
         from api.payload import load_payload
         from api.vapi import outbound_call
-        response = outbound_call(load_payload(agent, business_number, customer_number), vapi_token)
+        response = outbound_call(load_payload(agent, business_number, customer_number, twilio_token, twilio_account), vapi_token)
         print(f"\nResponse: \n{response}\n")
         
         # Check if follow_up is True and send message if needed
-        if response.get('follow_up') == 'True':
-            from api.message import send_message
-            result = send_message(response, booking_link)
-
-            if result:
-                return jsonify({'success': True, 'message': 'Call initiated successfully. Follow up message successful.'}), 200
+        if response.get("follow_up"):
+            result = False
+            preferred_contact = response.get("preferred_contact")
             
-            return jsonify({'success': True, 'message': 'Call initiated successfully. Follow-up message unsuccessful.'}), 200
+            if preferred_contact == "phone":
+                from api.message import send_text
+                result = send_text(booking_link, twilio_token, twilio_account, business_number, customer_number)
+            
+            elif preferred_contact == "email":
+                from api.message import send_email
+                result = send_email(booking_link, twilio_token, twilio_account, business_number, customer_number)
+            
+            if result:
+                return jsonify({'success': True, 'message': f'Call initiated successfully. Follow up {preferred_contact} successful.'}), 200
+                
+            return jsonify({'success': True, 'message': f'Call initiated successfully. Follow-up {preferred_contact} unsuccessful.'}), 200
         
         return jsonify({'success': True, 'message': 'Call initiated successfully. No follow-up needed.'}), 200
-        
+    
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
     
