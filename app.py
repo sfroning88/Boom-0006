@@ -11,6 +11,9 @@ vapi_token = os.environ.get('VAPI_API_KEY')
 # set up Twilio secret key
 twilio_token = os.environ.get('TWILIO_API_KEY')
 
+# set up Twilio account number
+twilio_account = os.environ.get('TWILIO_ACCOUNT_NUMBER')
+
 @app.route('/')
 def home():
     return render_template('chat.html')
