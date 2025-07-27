@@ -1,6 +1,7 @@
 def outbound_call(agent_payload, token):
     import requests
     import json
+    import time
 
     url = "https://api.vapi.ai/call"
     headers = {
@@ -8,26 +9,27 @@ def outbound_call(agent_payload, token):
         "Content-Type": "application/json"
     }
 
-    print(f"DEBUG Payload (dict): {agent_payload}")
-    print(f"DEBUG Payload (json): {json.dumps(agent_payload)}")
-    print(f"DEBUG Headers: {headers}")
-
-    try:
-        response = requests.post(url, json=agent_payload, headers=headers)
-        print(f"DEBUG Response Status: {response.status_code}")
-        print(f"DEBUG Response Text: {response.text}")
-        response.raise_for_status()
-    except Exception as e:
-        print(f"DEBUG Exception: {e}")
-        raise
-
-    structured_data = response.json().get('analysis', {}).get('structuredData', {})
-    print(f"\nStructured Data: \n{structured_data}\n")
+    response = requests.post(url, json=agent_payload, headers=headers)
+    response.raise_for_status()
     
-    return {
-        "success": True,
-        "follow_up": structured_data.get("follow_up", 'False'),
-        "preferred_contact": structured_data.get("preferred_contact", "NA"),
-        "phone_contact": structured_data.get("phone_contact", "NA"),
-        "email_contact": structured_data.get("email_contact", "NA")
-    }
+    call_id = response.json().get('id')
+    if call_id:
+        poll_url = f"{url}/{call_id}"
+        for _ in range(30):
+            poll_resp = requests.get(poll_url, headers=headers)
+            data = poll_resp.json()
+            if data.get('endedAt'):
+                structured_data = data.get('analysis', {}).get('structuredData', {})
+                return {
+                    "success": True,
+                    "message": "Call successfully completed, continuing program.",
+                    "follow_up": structured_data.get("follow_up", False),
+                    "preferred_contact": structured_data.get("preferred_contact", "NA"),
+                    "phone_contact": structured_data.get("phone_contact", "NA"),
+                    "email_contact": structured_data.get("email_contact", "NA")
+                }
+            time.sleep(10)
+        return {"success": False, "message": "Call did not finish in time.", "follow_up": False}
+    else:
+        time.sleep(60)
+        return {"success": False, "message": "No call ID, fallback sleep used.", "follow_up": False}
