@@ -1,24 +1,33 @@
 def outbound_call(agent_payload, token):
     import requests
+    import json
 
-    # Set the API endpoint
     url = "https://api.vapi.ai/call"
-
-    # Set the headers with the Bearer token
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
 
-    # Make the POST request to initiate the call
-    response = requests.post(url, json=agent_payload, headers=headers)
-    print(f"\nResponse: \n{response.call.json()}\n")
+    print(f"DEBUG Payload (dict): {agent_payload}")
+    print(f"DEBUG Payload (json): {json.dumps(agent_payload)}")
+    print(f"DEBUG Headers: {headers}")
 
-    # Return the extracted variables
+    try:
+        response = requests.post(url, json=agent_payload, headers=headers)
+        print(f"DEBUG Response Status: {response.status_code}")
+        print(f"DEBUG Response Text: {response.text}")
+        response.raise_for_status()
+    except Exception as e:
+        print(f"DEBUG Exception: {e}")
+        raise
+
+    structured_data = response.json().get('analysis', {}).get('structuredData', {})
+    print(f"\nStructured Data: \n{structured_data}\n")
+    
     return {
-        'success': True,
-        'follow_up': response.call.analysis.structuredData.get('follow_up', 'False'),
-        'preferred_contact': response.call.analysis.structuredData.get('preferred_contact', 'NA'),
-        'phone_contact': response.call.analysis.structuredData.get('phone_contact', 'NA'),
-        'email_contact': response.call.analysis.structuredData.get('email_contact', 'NA')
+        "success": True,
+        "follow_up": structured_data.get("follow_up", 'False'),
+        "preferred_contact": structured_data.get("preferred_contact", "NA"),
+        "phone_contact": structured_data.get("phone_contact", "NA"),
+        "email_contact": structured_data.get("email_contact", "NA")
     }
