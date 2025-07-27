@@ -1,11 +1,11 @@
-def outbound_call(agent_payload, token):
+def outbound_call(agent_payload, vapi_token):
     import requests
     import json
     import time
 
     url = "https://api.vapi.ai/call"
     headers = {
-        "Authorization": f"Bearer {token}",
+        "Authorization": f"Bearer {vapi_token}",
         "Content-Type": "application/json"
     }
 
