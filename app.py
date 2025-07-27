@@ -22,16 +22,20 @@ def home():
 @app.route('/generate_outbound_call', methods=['POST'])
 def generate_call():
     try:
-        ############################################################ 
+        ############################################################
+        # Hardcoded agent for testing
         from agents.brennan import agent
 
-        # Hardcoded transient phone number
+        # Hardcoded business phone number
         # business_number = "d4437aa7-12b0-49ce-b612-6165578a35e1"
         # free vapi trial number: +1 (206) 231 6331
 
-        # Hardcoded transient phone number
+        # Hardcoded business phone number
         business_number = "+18554581967"
         # free twilio trial number
+
+        # Hardcoded business email address
+        business_address = "seanf@thewealthboom.com"
 
         # Hardcoded customer phone number
         customer_number = "+17737240301"
@@ -52,11 +56,21 @@ def generate_call():
             
             if preferred_contact == "phone":
                 from api.message import send_text
-                result = send_text(booking_link, twilio_token, twilio_account, business_number, customer_number)
+                sender = business_number
+
+                from functions.cleaning import clean_phone
+                receiver = clean_phone(response.get("phone_contact"))
+                
+                result = send_text(booking_link, twilio_token, twilio_account, sender, receiver)
             
             elif preferred_contact == "email":
                 from api.message import send_email
-                result = send_email(booking_link, twilio_token, twilio_account, business_number, customer_number)
+                sender = business_address
+
+                from functions.cleaning import clean_email
+                receiver = clean_email(booking_link, twilio_token, twilio_account, sender, receiver)
+
+                result = send_email(booking_link, twilio_token, twilio_account, sender, receiver)
             
             if result:
                 return jsonify({'success': True, 'message': f'Call initiated successfully. Follow up {preferred_contact} successful.'}), 200
