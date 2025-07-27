@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
 # set up Vapi secret key
-token = os.environ.get('VAPI_API_KEY')
+vapi_token = os.environ.get('VAPI_API_KEY')
 
 # set up Twilio secret key
 twilio_token = os.environ.get('TWILIO_API_KEY')
@@ -39,7 +39,7 @@ def generate_call():
 
         from api.payload import load_payload
         from api.vapi import outbound_call
-        response = outbound_call(load_payload(agent, business_number, customer_number), token)
+        response = outbound_call(load_payload(agent, business_number, customer_number), vapi_token)
         print(f"\nResponse: \n{response}\n")
         
         # Check if follow_up is True and send message if needed
