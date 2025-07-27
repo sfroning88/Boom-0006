@@ -16,9 +16,8 @@ def home():
 @app.route('/generate_outbound_call', methods=['POST'])
 def generate_call():
     try:
-        ############################################################
-        # Hardcoded agent for testing
-        from agents.brennan import agent_id
+        ############################################################ 
+        from agents.brennan import agent
 
         # Hardcoded transient phone number
         business_number = "d4437aa7-12b0-49ce-b612-6165578a35e1"
@@ -33,7 +32,7 @@ def generate_call():
 
         from api.payload import load_payload
         from api.vapi import outbound_call
-        response = outbound_call(load_payload(agent_id, business_number, customer_number), token)
+        response = outbound_call(load_payload(agent, business_number, customer_number), token)
         print(f"\nResponse: \n{response}\n")
         
         # Check if follow_up is True and send message if needed
@@ -44,7 +43,7 @@ def generate_call():
             #     phone_contact=response.get('phone_contact'),
             #     email_contact=response.get('email_contact')
             # )
-        return jsonify({'success': True, 'message': 'Call initiated successfully. Follow-up message will be sent.'}), 200
+            return jsonify({'success': True, 'message': 'Call initiated successfully. Follow-up message will be sent.'}), 200
         else:
             return jsonify({'success': True, 'message': 'Call initiated successfully. No follow-up needed.'}), 200
     except Exception as e:
