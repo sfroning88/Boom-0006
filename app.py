@@ -8,6 +8,9 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 # set up Vapi secret key
 token = os.environ.get('VAPI_API_KEY')
 
+# set up Twilio secret key
+twilio_token = os.environ.get('TWILIO_API_KEY')
+
 @app.route('/')
 def home():
     return render_template('chat.html')
@@ -20,8 +23,12 @@ def generate_call():
         from agents.brennan import agent
 
         # Hardcoded transient phone number
-        business_number = "d4437aa7-12b0-49ce-b612-6165578a35e1"
-        # free vapi random number: +1 (206) 231 6331
+        # business_number = "d4437aa7-12b0-49ce-b612-6165578a35e1"
+        # free vapi trial number: +1 (206) 231 6331
+
+        # Hardcoded transient phone number
+        business_number = "+18554581967"
+        # free twilio trial number
 
         # Hardcoded customer phone number
         customer_number = "+17737240301"
@@ -37,15 +44,16 @@ def generate_call():
         
         # Check if follow_up is True and send message if needed
         if response.get('follow_up') == 'True':
-            # TODO: Implement send_message function
-            # send_message(
-            #     preferred_method=response.get('preferred_method'),
-            #     phone_contact=response.get('phone_contact'),
-            #     email_contact=response.get('email_contact')
-            # )
-            return jsonify({'success': True, 'message': 'Call initiated successfully. Follow-up message will be sent.'}), 200
-        else:
-            return jsonify({'success': True, 'message': 'Call initiated successfully. No follow-up needed.'}), 200
+            from api.message import send_message
+            result = send_message(response, booking_link)
+
+            if result:
+                return jsonify({'success': True, 'message': 'Call initiated successfully. Follow up message successful.'}), 200
+            
+            return jsonify({'success': True, 'message': 'Call initiated successfully. Follow-up message unsuccessful.'}), 200
+        
+        return jsonify({'success': True, 'message': 'Call initiated successfully. No follow-up needed.'}), 200
+        
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
     
