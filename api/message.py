@@ -2,12 +2,14 @@ def send_text(booking_link, twilio_token, twilio_account, sender, receiver):
     from twilio.rest import Client
 
     agent_message = f'''
-    Hello! Thank you for taking the time earlier to speak about what my small business can do for you.
-    Go ahead and book a 15 minute meeting with Sean using this link: 
+    Hey there! Hope you see the value that Boom can bring to your business.
+    We are the right team to get the job done, and secure your business’s succession.
+    Go ahead and book a 15 minute meeting with Steve using this link: 
     {booking_link}
 
     Best,
-    Small Business
+    Savannah
+    https://www.thewealthboom.com
     '''
 
     try: 
@@ -32,12 +34,14 @@ def send_email(booking_link, sendgrid_token, sender, receiver):
     from sendgrid.helpers.mail import Mail
 
     agent_message = f'''
-    Hello! Thank you for taking the time earlier to speak about what my small business can do for you.
-    Go ahead and book a 15 minute meeting with Sean using this link: 
+    Hey there! Hope you see the value that Boom can bring to your business.
+    We are the right team to get the job done, and secure your business’s succession.
+    Go ahead and book a 15 minute meeting with Steve using this link: 
     {booking_link}
 
     Best,
-    Small Business
+    Savannah
+    https://www.thewealthboom.com
     '''
 
     try:
