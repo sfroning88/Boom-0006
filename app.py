@@ -1,5 +1,5 @@
 import os, sys
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, jsonify
 
 # create a Flask app
 app = Flask(__name__)
@@ -27,7 +27,7 @@ def generate_outbound_call():
     try:
         ############################################################
         # Hardcoded agent for testing
-        from agents.brennan import agent
+        from agents.savannah import agent
 
         # Hardcoded business phone number
         # business_phone = "d4437aa7-12b0-49ce-b612-6165578a35e1"
