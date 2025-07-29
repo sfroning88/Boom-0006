@@ -65,7 +65,7 @@ Additional Layers<br>
 -> Integrate voice cloning for personal branding.<br>
 -> Build agent dashboards with insights like “best time to call,” “script performance,” etc.<br>
 
-##################################################################################################
-Notes: to fix SSL verification issue, you will need to run:
-/Applications/Python\ 3.13/Install\ Certificates.command
-With your Python subversion after requirements installation
+#################################################################################<br>
+Notes: to fix SSL verification issue, you will need to run:<br>
+/Applications/Python\ 3.13/Install\ Certificates.command<br>
+With your Python subversion after requirements installation<br>
