@@ -55,6 +55,7 @@ def send_email(booking_link, sendgrid_token, sender, receiver):
         # Send email using Client
         response = sg.send(message)
         return True
+        
     except Exception as e:
         print(e)
         return False
