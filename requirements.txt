@@ -1,2 +1,5 @@
 flask
 twilio
+sendgrid
+certifi
+requests
