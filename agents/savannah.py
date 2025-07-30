@@ -150,7 +150,7 @@ agent = {
       "machineDetectionSpeechEndThreshold": 1200,
       "machineDetectionSilenceTimeout": 5000
    },
-   "maxDurationSeconds": 300,
+   "maxDurationSeconds": 600,
    "backgroundSound": "office",
    "analysisPlan": {
       "minMessagesThreshold": 1,
