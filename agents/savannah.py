@@ -30,6 +30,17 @@ agent_silence_message = '''
 Guess no one is home.
 '''
 
+agent_transcribe_phrases = [
+   "phone",
+   "phone number",
+   "email",
+   "email address",
+   "Boom",
+   "@gmail.com",
+   "@yahoo.com",
+   "@hotmail.com"
+]
+
 agent_description = f'''
 # Business Development Agent Prompt
 
@@ -113,11 +124,15 @@ Remember that your ultimate goal is to generate meetings with prospective client
 '''
 
 agent = {
-   "name": f"{agent_name} v1.1",
+   "name": f"{agent_name}",
    "transcriber": {
-      "provider": "openai",
-      "model": "gpt-4o-transcribe",
-      "language": "en"
+      "provider": "deepgram",
+      "model": "nova-3",
+      "language": "en-US",
+      "numerals": True,
+      "confidenceThreshold": 0.1,
+      "keyterm": agent_transcribe_phrases,
+      "endpointing": 300
    },
    "model": {
       "provider": "openai",
