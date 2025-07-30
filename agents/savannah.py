@@ -7,6 +7,8 @@ Let's chat about how we can facilitate your next business's succession.
 '''
 
 agent_last_message = '''
+Steve looks forward to talking with you! The meeting will be over Google Meet.
+Using the link, book a time that is convenient for you.
 Thank you for your time. Have a wonderful rest of your day, and we'll talk soon.
 '''
 
@@ -87,11 +89,10 @@ Give an overview of Boom using your knowledge base. Emphasize how Boom helps sma
    - "Great, I will send a booking link over to your [preferred_method] shortly."
 
 6. Provide follow-up instructions:
-   - "Follow the link to book a quick meeting with Sean. The meeting will take place over Google Meet.”
+   - "{agent_last_message}"
 
-### Confirmation and Wrap-up
-1. Convey enthusiasm and close politely: "{agent_last_message}"
-2. Hang up the phone.
+7. Hang up the phone
+   - End the conversation and hang up the phone
 
 ## Response Guidelines
 
