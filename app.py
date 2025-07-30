@@ -30,10 +30,6 @@ def generate_outbound_call():
         from agents.savannah import agent
 
         # Hardcoded business phone number
-        # business_phone = "d4437aa7-12b0-49ce-b612-6165578a35e1"
-        # free vapi trial number: +1 (206) 231 6331
-
-        # Hardcoded business phone number
         business_phone = "+18554581967"
         # free twilio trial number
 
