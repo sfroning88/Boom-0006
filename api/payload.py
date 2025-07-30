@@ -8,7 +8,7 @@ def load_payload(agent, business_number, customer_number, twilio_token, twilio_a
             "smsEnabled": False
         },
         "customer": {
-                "number": customer_number,
+                "number": customer_number
         },
     }
 
