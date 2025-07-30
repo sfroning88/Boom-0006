@@ -87,7 +87,23 @@ def generate_outbound_call():
     
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 400
+
+@app.route('/BUTTON_FUNCTION_TWO', methods=['POST'])
+def BUTTON_FUNCTION_TWO():
+    try:
+        return jsonify({'success': True, 'message': 'Button Function Two success.'}), 200
     
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+
+@app.route('/BUTTON_FUNCTION_THREE', methods=['POST'])
+def BUTTON_FUNCTION_THREE():
+    try:
+        return jsonify({'success': True, 'message': 'Button Function Three success.'}), 200
+    
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+
 if __name__ == '__main__':
     if len(sys.argv) != 1:
         print("Usage: python3 app.py")
